@@ -7,11 +7,11 @@ const Home = (props) => {
   const handleClick = () => {
     setIsButtonDisabled(true);
     props.callQuiz();
-  };
 
-  setTimeout(() => {
-    setIsButtonDisabled(false);
-  }, 6000);
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 6000);
+  };
 
   return (
     <div className="home-container">
