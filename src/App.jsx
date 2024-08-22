@@ -26,11 +26,7 @@ function App() {
   return (
     <>
       <Home callQuiz={callQuiz} />
-      {error ? (
-        <div>Error: {error}</div> // Display error message
-      ) : (
-        <Quiz quizData={quizData} />
-      )}
+      {error ? <div>Error: {error}</div> : <Quiz quizData={quizData} />}
     </>
   );
 }

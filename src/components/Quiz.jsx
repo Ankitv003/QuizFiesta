@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 
 const Quiz = (props) => {
   return (
-    <>
+    <div className="quiz-container">
       {props.quizData.map((quiz) => {
         return (
           <div key={nanoid()}>
@@ -11,7 +11,7 @@ const Quiz = (props) => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 
