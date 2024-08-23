@@ -16,11 +16,9 @@ const Home = (props) => {
   return (
     <div className="home-container">
       <h1>Quiz Fiesta!</h1>
-      <p> Some descirption</p>
+      <p> Some description</p>
       <button onClick={handleClick} disabled={isButtonDisabled}>
-        {isButtonDisabled
-          ? "please wait before another click..."
-          : "Start Quiz"}
+        {isButtonDisabled ? "Loading..." : "Start Quiz"}
       </button>
     </div>
   );
