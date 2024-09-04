@@ -98,6 +98,7 @@ const Quiz = (props) => {
           </div>
         );
       })}
+      <button className="show-answers">Show Answers</button>
     </div>
   );
 };

@@ -125,3 +125,9 @@ button:focus-visible {
   background-color: #f44336;
   color: #ffffff;
 }
+.show-answers {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 2em;
+}
