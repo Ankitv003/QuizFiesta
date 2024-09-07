@@ -90,6 +90,7 @@ button:focus-visible {
 .quiz-container {
   background-color: #f5f5f5;
   padding-bottom: 2em;
+  padding: 1.5em;
 }
 .quiz-question {
   margin-left: 2em;
@@ -114,6 +115,8 @@ button:focus-visible {
   margin: 0 auto;
 }
 .answers {
+  background-color: #fff;
+  color: #1a1a1a;
 }
 
 .correct {

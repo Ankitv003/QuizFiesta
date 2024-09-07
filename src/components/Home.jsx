@@ -17,7 +17,11 @@ const Home = (props) => {
     <div className="home-container">
       <h1>Quiz Fiesta!</h1>
       <p> Some description</p>
-      <button onClick={handleClick} disabled={isButtonDisabled}>
+      <button
+        className="start-quiz"
+        onClick={handleClick}
+        disabled={isButtonDisabled}
+      >
         {isButtonDisabled ? "Loading..." : "Start Quiz"}
       </button>
     </div>
