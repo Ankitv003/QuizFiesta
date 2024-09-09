@@ -6,7 +6,7 @@ function App() {
   const [quizData, setQuizData] = useState([]);
   const [error, setError] = useState(null);
   const [showquiz, setShowQuiz] = useState(false);
-
+  const [showAnswers, setSHowAnswers] = useState(false);
   const callQuiz = () => {
     fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
       .then((resp) => {
