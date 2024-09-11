@@ -31,7 +31,7 @@ function App() {
         error ? (
           <div>Error: {error}</div>
         ) : (
-          <Quiz quizData={quizData} />
+          <Quiz quizData={quizData} callQuiz={callQuiz} />
         )
       ) : (
         <Home callQuiz={callQuiz} />

@@ -98,17 +98,8 @@ button:focus-visible {
 }
 .quiz-question {
   margin-left: 2em;
-  /* word-break: break-all; */
-}
-/* .answers-correct {
-  margin-right: 2em;
-  margin-left: 4em;
 }
 
-.answers-wrong {
-  margin-left: 2em;
-  margin-right: 2em;
-} */
 .quiz-info {
   display: flex;
   flex-direction: column;
