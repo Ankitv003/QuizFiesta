@@ -1,3 +1,4 @@
 # QuizFiesta
 
-- most of the app is finished,need to add show answers button apart from that some style changes reamin.
+-A simple quiz app made bu using opent DB API, react and javasript.
+-multiple choice questions are provided on various categories.
