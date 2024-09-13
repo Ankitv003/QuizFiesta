@@ -41,8 +41,129 @@
 
 // export default Quiz;
 
+// import { nanoid } from "nanoid";
+// import { useState, useEffect } from "react";
+
+// // Function to decode HTML entities
+// const decodeHtmlEntities = (text) => {
+//   const textArea = document.createElement("textarea");
+//   textArea.innerHTML = text;
+//   return textArea.value;
+// };
+
+// // Function to shuffle an array (Fisher-Yates algorithm)
+// const shuffleArray = (array) => {
+//   const shuffled = [...array];
+//   for (let i = shuffled.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+//   }
+//   return shuffled;
+// };
+
+// const Quiz = (props) => {
+//   const [selectedAnswers, setSelectedAnswers] = useState({});
+//   const [showAnswers, setShowAnswers] = useState(false);
+//   const [shuffledAnswers, setShuffledAnswers] = useState({});
+
+//   // Shuffle and decode answers for each quiz question when the quiz data is loaded
+//   useEffect(() => {
+//     const shuffled = {};
+//     props.quizData.forEach((quiz) => {
+//       const decodedQuestion = decodeHtmlEntities(quiz.question);
+//       const decodedCorrectAnswer = decodeHtmlEntities(quiz.correct_answer);
+//       const decodedIncorrectAnswers =
+//         quiz.incorrect_answers.map(decodeHtmlEntities);
+
+//       const answers = shuffleArray([
+//         decodedCorrectAnswer,
+//         ...decodedIncorrectAnswers,
+//       ]);
+//       shuffled[decodedQuestion] = answers;
+
+//       // Update quiz data with decoded question and answers
+//       quiz.question = decodedQuestion;
+//       quiz.correct_answer = decodedCorrectAnswer;
+//       quiz.incorrect_answers = decodedIncorrectAnswers;
+//     });
+//     setShuffledAnswers(shuffled);
+//   }, [props.quizData]);
+
+//   // Handle answer click for each question
+//   const handleAnswerClick = (question, answer) => {
+//     setSelectedAnswers((prevSelectedAnswers) => ({
+//       ...prevSelectedAnswers,
+//       [question]: answer,
+//     }));
+//   };
+
+//   // Check if the answer is correct
+//   const isCorrect = (question, answer) => {
+//     const quiz = props.quizData.find((q) => q.question === question);
+//     return quiz && quiz.correct_answer === answer;
+//   };
+
+//   // Check if all questions have been answered
+//   const allQuestionsAnswered =
+//     Object.keys(selectedAnswers).length === props.quizData.length;
+
+//   return (
+//     <div className="quiz-container">
+//       {props.quizData.map((quiz) => {
+//         const selectedAnswer = selectedAnswers[quiz.question];
+//         const answers = shuffledAnswers[quiz.question] || [];
+
+//         return (
+//           <div className="quiz-info" key={nanoid()}>
+//             <h2 className="quiz-question">{quiz.question}</h2>
+//             <div className="quiz-buttons">
+//               {answers.map((answer, index) => {
+//                 const isSelected = selectedAnswer === answer;
+//                 const isAnswerCorrect = isCorrect(quiz.question, answer);
+
+//                 let buttonClass = "";
+//                 if (showAnswers) {
+//                   buttonClass = isAnswerCorrect
+//                     ? "correct"
+//                     : isSelected
+//                     ? "wrong"
+//                     : "";
+//                 } else if (isSelected) {
+//                   buttonClass = isAnswerCorrect ? "correct" : "wrong";
+//                 }
+
+//                 return (
+//                   <button
+//                     key={index}
+//                     onClick={() => handleAnswerClick(quiz.question, answer)}
+//                     className={`answers ${buttonClass}`}
+//                     disabled={!!selectedAnswer || showAnswers} // Disable when answer is selected or when showing answers
+//                   >
+//                     {answer}
+//                   </button>
+//                 );
+//               })}
+//             </div>
+//           </div>
+//         );
+//       })}
+
+//       {/* Show Answers Button */}
+//       <button
+//         className="show-answers"
+//         onClick={() => setShowAnswers(true)} // Set to show answers when clicked
+//         disabled={!allQuestionsAnswered} // Disable until all questions are answered
+//       >
+//         Show Answers
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default Quiz;
 import { nanoid } from "nanoid";
 import { useState, useEffect } from "react";
+import CorrectAnswer from "./CorrectAnswer";
 
 // Function to decode HTML entities
 const decodeHtmlEntities = (text) => {
@@ -51,7 +172,7 @@ const decodeHtmlEntities = (text) => {
   return textArea.value;
 };
 
-// Function to shuffle an array (Fisher-Yates algorithm)
+// Function to shuffle an array
 const shuffleArray = (array) => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -63,10 +184,9 @@ const shuffleArray = (array) => {
 
 const Quiz = (props) => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [showAnswers, setShowAnswers] = useState(false);
+  const [showAnswersPage, setShowAnswersPage] = useState(false); // State to show the answers page
   const [shuffledAnswers, setShuffledAnswers] = useState({});
 
-  // Shuffle and decode answers for each quiz question when the quiz data is loaded
   useEffect(() => {
     const shuffled = {};
     props.quizData.forEach((quiz) => {
@@ -89,7 +209,6 @@ const Quiz = (props) => {
     setShuffledAnswers(shuffled);
   }, [props.quizData]);
 
-  // Handle answer click for each question
   const handleAnswerClick = (question, answer) => {
     setSelectedAnswers((prevSelectedAnswers) => ({
       ...prevSelectedAnswers,
@@ -97,17 +216,16 @@ const Quiz = (props) => {
     }));
   };
 
-  // Check if the answer is correct
   const isCorrect = (question, answer) => {
     const quiz = props.quizData.find((q) => q.question === question);
     return quiz && quiz.correct_answer === answer;
   };
 
-  // Check if all questions have been answered
   const allQuestionsAnswered =
     Object.keys(selectedAnswers).length === props.quizData.length;
 
-  return (
+  // Render the quiz or correct answers based on the state
+  return !showAnswersPage ? (
     <div className="quiz-container">
       {props.quizData.map((quiz) => {
         const selectedAnswer = selectedAnswers[quiz.question];
@@ -117,27 +235,21 @@ const Quiz = (props) => {
           <div className="quiz-info" key={nanoid()}>
             <h2 className="quiz-question">{quiz.question}</h2>
             <div className="quiz-buttons">
-              {answers.map((answer, index) => {
+              {answers.map((answer) => {
                 const isSelected = selectedAnswer === answer;
                 const isAnswerCorrect = isCorrect(quiz.question, answer);
 
                 let buttonClass = "";
-                if (showAnswers) {
-                  buttonClass = isAnswerCorrect
-                    ? "correct"
-                    : isSelected
-                    ? "wrong"
-                    : "";
-                } else if (isSelected) {
+                if (isSelected) {
                   buttonClass = isAnswerCorrect ? "correct" : "wrong";
                 }
 
                 return (
                   <button
-                    key={index}
+                    key={nanoid()}
                     onClick={() => handleAnswerClick(quiz.question, answer)}
                     className={`answers ${buttonClass}`}
-                    disabled={!!selectedAnswer || showAnswers} // Disable when answer is selected or when showing answers
+                    disabled={!!selectedAnswer} // Disable when answer is selected
                   >
                     {answer}
                   </button>
@@ -148,15 +260,19 @@ const Quiz = (props) => {
         );
       })}
 
-      {/* Show Answers Button */}
       <button
         className="show-answers"
-        onClick={() => setShowAnswers(true)} // Set to show answers when clicked
+        onClick={() => setShowAnswersPage(true)} // Set to show answers page when clicked
         disabled={!allQuestionsAnswered} // Disable until all questions are answered
       >
         Show Answers
       </button>
     </div>
+  ) : (
+    <CorrectAnswer
+      selectedAnswers={selectedAnswers}
+      quizData={props.quizData}
+    />
   );
 };
 
