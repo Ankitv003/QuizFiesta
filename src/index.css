@@ -132,3 +132,9 @@ button:focus-visible {
   margin: 0 auto;
   margin-top: 2em;
 }
+.correct-answer {
+  width: 100%;
+  padding: 1.5em;
+  padding-top: 0;
+  margin: 0 auto;
+}
