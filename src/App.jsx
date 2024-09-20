@@ -1,7 +1,8 @@
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
-import { useState } from "react";
+import { createContext, useState } from "react";
 
+const QuizStartContext = createContext();
 function App() {
   const [quizData, setQuizData] = useState([]);
   const [error, setError] = useState(null);
@@ -27,17 +28,20 @@ function App() {
   };
   return (
     <>
-      {showquiz ? (
-        error ? (
-          <div>Error: {error}</div>
+      <QuizStartContext.Provider value={{ callQuiz }}>
+        {showquiz ? (
+          error ? (
+            <div>Error: {error}</div>
+          ) : (
+            <Quiz quizData={quizData} callQuiz={callQuiz} />
+          )
         ) : (
-          <Quiz quizData={quizData} callQuiz={callQuiz} />
-        )
-      ) : (
-        <Home callQuiz={callQuiz} />
-      )}
+          <Home callQuiz={callQuiz} />
+        )}
+      </QuizStartContext.Provider>
     </>
   );
 }
 
 export default App;
+export { QuizStartContext };
