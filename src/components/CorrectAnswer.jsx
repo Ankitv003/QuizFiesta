@@ -1,7 +1,5 @@
-// /* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types */
 
-// import { useContext } from "react";
-// import { QuizStartContext } from "../App";
 // import Confetti from "react-confetti";
 // import useWindowSize from "react-use/lib/useWindowSize";
 
@@ -15,9 +13,8 @@
 //     const quiz = quizData.find((q) => q.question === question);
 //     return quiz && quiz.correct_answer === answer;
 //   };
-//   const { width, height } = useWindowSize();
 
-//   const { callQuiz } = useContext(QuizStartContext);
+//   const { width, height } = useWindowSize();
 
 //   const score = Object.keys(selectedAnswers).reduce((acc, question) => {
 //     const selectedAnswer = selectedAnswers[question];
@@ -30,9 +27,13 @@
 
 //   return (
 //     <>
-//       <Confetti width={width} height={height} />
+//       {/* Render confetti if score is 3 or higher, otherwise show sad emoji animation */}
+//       {score >= 3 && (
+//         <Confetti width={width} height={height} numberOfPieces={750} />
+//       )}
+
 //       <div className="correct-answer">
-//         <h1>Correct Answers</h1>
+//         {/* <h1>Correct Answers</h1> */}
 //         {quizData.map((quiz) => {
 //           const selectedAnswer = selectedAnswers[quiz.question];
 //           const answers = shuffledAnswers[quiz.question] || [];
@@ -63,7 +64,10 @@
 //         })}
 
 //         <h3 className="score-text">
-//           You Scored {score}/{quizData.length} correct answers
+//           You Scored {score}/{quizData.length} correct answers,
+//           {score < 3
+//             ? " nah, you are just a regular monkey 🐒!"
+//             : " Koko 🦍 has been found!"}
 //         </h3>
 
 //         {/* New Game button */}
@@ -76,11 +80,8 @@
 // };
 
 // export default CorrectAnswer;
-/* eslint-disable react/prop-types */
-import { useContext } from "react";
-import { QuizStartContext } from "../App";
 import Confetti from "react-confetti";
-import useWindowSize from "react-use/lib/useWindowSize";
+import { useEffect, useState } from "react";
 
 const CorrectAnswer = ({
   selectedAnswers,
@@ -93,8 +94,25 @@ const CorrectAnswer = ({
     return quiz && quiz.correct_answer === answer;
   };
 
-  const { width, height } = useWindowSize();
-  const { callQuiz } = useContext(QuizStartContext);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: Math.max(
+          document.documentElement.scrollHeight,
+          window.innerHeight
+        ),
+      });
+    };
+
+    // Update the size on component mount and window resize
+    updateSize();
+    window.addEventListener("resize", updateSize);
+
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   const score = Object.keys(selectedAnswers).reduce((acc, question) => {
     const selectedAnswer = selectedAnswers[question];
@@ -107,20 +125,23 @@ const CorrectAnswer = ({
 
   return (
     <>
-      {/* Render confetti if score is 3 or higher, otherwise show sad emoji animation */}
+      {/* Render confetti if score is 3 or higher */}
       {score >= 3 && (
-        <Confetti width={width} height={height} numberOfPieces={750} />
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          numberOfPieces={750}
+        />
       )}
 
       <div className="correct-answer">
-        <h1>Correct Answers</h1>
         {quizData.map((quiz) => {
           const selectedAnswer = selectedAnswers[quiz.question];
           const answers = shuffledAnswers[quiz.question] || [];
 
           return (
             <div key={quiz.question} className="quiz-review">
-              <h2>{quiz.question}</h2>
+              <h3>{quiz.question}</h3>
               <div className="quiz-buttons">
                 {answers.map((answer) => {
                   const isAnswerCorrect = isCorrect(quiz.question, answer);
@@ -146,8 +167,8 @@ const CorrectAnswer = ({
         <h3 className="score-text">
           You Scored {score}/{quizData.length} correct answers,
           {score < 3
-            ? "nah, you are just a regular monkey 🐒!"
-            : "Koko 🦍 has been found!"}
+            ? " nah, you are just a regular monkey 🐒!"
+            : " Koko 🦍 has been found!"}
         </h3>
 
         {/* New Game button */}

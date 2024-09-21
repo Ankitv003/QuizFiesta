@@ -77,7 +77,7 @@ const Quiz = (props) => {
 
         return (
           <div className="quiz-info" key={nanoid()}>
-            <h2 className="quiz-question">{quiz.question}</h2>
+            <h3 className="quiz-question">{quiz.question}</h3>
             <div className="quiz-buttons">
               {answers.map((answer) => {
                 const isSelected = selectedAnswer === answer;

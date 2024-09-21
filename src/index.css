@@ -140,6 +140,11 @@ button:focus-visible {
   margin: 0 auto;
   margin-top: 2em;
 }
+
+/*
+*MARK:Correct Answer 
+ */
+
 .correct-answer {
   width: 90%;
   padding: 1.5em;
@@ -153,6 +158,26 @@ button:focus-visible {
 }
 .new-game-btn {
   /* background-color: #4caf50; */
-  width: 20%;
+  /* width: 20%; */
   margin: 0 auto;
+}
+
+/*
+*MARK:Media Queries 
+ */
+@media (max-width: 600px) {
+  .correct-answer {
+    width: 100%;
+    padding: 1.5em;
+    padding-top: 0;
+    margin: 0 auto;
+  }
+
+  .quiz-buttons {
+    flex-wrap: wrap;
+  }
+
+  .answers {
+    margin-bottom: 1em;
+  }
 }
