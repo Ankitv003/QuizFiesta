@@ -87,7 +87,7 @@ const CorrectAnswer = ({
         <h3 className="score-text">
           You Scored {score}/{quizData.length} correct answers,
           {score < 3
-            ? " nah, you are just a regular monkey 🐒!"
+            ? " Nah, you're just a regular monkey 🐒!"
             : " Koko 🦍 has been found!"}
         </h3>
 
