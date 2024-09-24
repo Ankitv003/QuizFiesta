@@ -2,13 +2,7 @@
 import { nanoid } from "nanoid";
 import { useState, useEffect } from "react";
 import CorrectAnswer from "./CorrectAnswer";
-
-// Function to decode HTML entities
-const decodeHtmlEntities = (text) => {
-  const textArea = document.createElement("textarea");
-  textArea.innerHTML = text;
-  return textArea.value;
-};
+import { decode } from "html-entities";
 
 // Function to shuffle an array
 const shuffleArray = (array) => {
@@ -28,10 +22,9 @@ const Quiz = (props) => {
   useEffect(() => {
     const shuffled = {};
     props.quizData.forEach((quiz) => {
-      const decodedQuestion = decodeHtmlEntities(quiz.question);
-      const decodedCorrectAnswer = decodeHtmlEntities(quiz.correct_answer);
-      const decodedIncorrectAnswers =
-        quiz.incorrect_answers.map(decodeHtmlEntities);
+      const decodedQuestion = decode(quiz.question);
+      const decodedCorrectAnswer = decode(quiz.correct_answer);
+      const decodedIncorrectAnswers = quiz.incorrect_answers.map(decode);
 
       const answers = shuffleArray([
         decodedCorrectAnswer,
@@ -97,7 +90,6 @@ const Quiz = (props) => {
                       backgroundColor: isSelected ? "#1a1a1a" : "",
                       color: isSelected ? "#fff" : "",
                     }}
-                    disabled={!!selectedAnswer} // Disable when an answer is selected
                   >
                     {answer}
                   </button>
