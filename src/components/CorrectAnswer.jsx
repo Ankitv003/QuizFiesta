@@ -86,9 +86,14 @@ const CorrectAnswer = ({
 
         <h3 className="score-text">
           You Scored {score}/{quizData.length} correct answers,
-          {score < 3
-            ? " Nah, you're just a regular monkey 🐒!"
-            : " Koko 🦍 has been found!"}
+          {score < 3 ? (
+            <>
+              &nbsp;Nah, you&#39;re just a regular monkey 🐒!
+              <p>P.S. Score more than 3 for a special surprise!</p>
+            </>
+          ) : (
+            " Koko 🦍 has been found!"
+          )}
         </h3>
 
         {/* New Game button */}
