@@ -15,7 +15,6 @@ function App() {
         return resp.json();
       })
       .then((data) => {
-        console.log(data);
         setQuizData(data.results);
         setError(null);
         setShowQuiz(true);
